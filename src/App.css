@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;500;700&display=swap");
+
+.app {
+  font-family: "Pretendard", sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 0 5vw;
+  height: 100vh;
+  width: 90vw;
+}
+
+.total-section {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.input-section,
+.view-section {
+  display: flex;
+  width: 40vw;
+  padding: 5vw;
+  flex-direction: column;
+  border: 2px solid #d2d2d2;
+  border-radius: 20px;
+}
+
+.input-section label {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-section input {
+  padding: 10px;
+  height: 1.5rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+}
+
+.input-section button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: fit-content;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.receipt {
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+
+.receipt-content {
+  font-size: 1.2rem;
+  background: #fafbf4;
+  padding: 1rem;
+  border: 1px dashed #bbb;
+  margin-bottom: 1rem;
+}
+
+.receipt-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.receipt-label {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.receipt-value {
+  font-size: 1em;
+  color: #222;
+  margin-top: 3px;
+  border-radius: 5px;
+}
+
+.receipt-button {
+  margin-top: 0.5rem;
+}
+
+.receipt-button button {
+  padding: 6px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.memo-container {
+  background-color: #fff9c4; /* 연한 노란색 배경 (메모지 색상) */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.memo-header {
+  border-bottom: 1px dashed #b0b0b0;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.memo-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.memo-title {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.memo-content {
+  padding: 5px;
+}
+
+.memo-question {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.memo-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.memo-select,
+.memo-text-input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.7); /* 반투명 배경 */
+  width: 90%;
+  box-sizing: border-box;
+}
+
+.memo-select:focus,
+.memo-text-input:focus {
+  outline: none;
+  border-color: #ffc107;
+  box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+}
+
+.memo-text-input {
+  min-height: 60px;
+}
+
+.memo-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.memo-submit button {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.memo-submit button:hover {
+  background-color: #f57c00;
+}
+
+/* 메모지에 테이프 효과 추가 (선택사항) */
+.memo-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 15px;
+  background-color: rgba(200, 200, 200, 0.5);
+  border-radius: 3px;
+}
+
+.receipt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.receipt-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.receipt-card {
+  width: 450px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 2px dashed #ccc;
+  padding-bottom: 10px;
+}
+
+.invoice-label {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.invoice-number {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.receipt-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.info-label {
+  font-weight: bold;
+  color: #666;
+}
+
+.info-text {
+  font-size: 1rem;
+}
+
+.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.receipt-table th,
+.receipt-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.receipt-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.receipt-summary {
+  margin-top: 10px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-top: 2px dashed #ccc;
+  padding-top: 10px;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 10px;
+  color: #777;
+}
+
+.view-section {
+  width: 20vw;
+}
+
+.view-section h2 {
+  margin-bottom: 2rem;
+}
