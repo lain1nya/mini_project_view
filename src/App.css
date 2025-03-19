@@ -23,6 +23,7 @@
   flex-direction: column;
   border: 2px solid #d2d2d2;
   border-radius: 20px;
+  min-height: 70vh;
 }
 
 .input-section label {
@@ -49,6 +50,10 @@
   font-weight: bold;
   cursor: pointer;
   background-color: transparent;
+}
+
+.input-section input:focus {
+  outline: none;
 }
 
 .receipt {
@@ -291,8 +296,21 @@
 
 .view-section {
   width: 20vw;
+  padding: 2vw 5vw;
 }
 
 .view-section h2 {
   margin-bottom: 2rem;
+}
+
+.receipt-section {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  justify-content: space-between;
+}
+
+.analysis-done {
+  margin-top: 2rem;
+  color: #dd2626;
 }

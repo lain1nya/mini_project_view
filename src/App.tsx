@@ -41,7 +41,6 @@ const App = () => {
     setNaggingInput(e.target.value);
   };
 
-  // 가격 측정하는 함수
   const handleSubmitNagging = async () => {
     if (!naggingInput) {
       alert("잔소리를 입력해주세요");
@@ -79,6 +78,7 @@ const App = () => {
 
       const updateNagging = [...existingNagging, newReceipt];
       sessionStorage.setItem("naggingList", JSON.stringify(updateNagging));
+      setNaggingList(updateNagging);
     } catch (error) {
       console.error("Error fetching price: ", error);
     }
@@ -181,6 +181,11 @@ const App = () => {
           </button>
           {/* Like & Dislike Section */}
           {isShow && receipt && (
+            <div className="analysis-done">
+              분석이 완료되었습니다. 해당 가격이 어떤지 알려주세요.
+            </div>
+          )}
+          {isShow && receipt && (
             <section className="receipt">
               <div className="receipt-content">
                 <div className="receipt-item">
@@ -255,40 +260,42 @@ const App = () => {
         {/* 영수증 리스트 출력 */}
         <section className="view-section">
           <h2>Invoice</h2>
-          <table className="receipt-table">
-            <thead>
-              <tr>
-                <th>잔소리</th>
-                <th>제안한 가격 (만원)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {naggingList.length === 0 ? (
+          <div className="receipt-section">
+            <table className="receipt-table">
+              <thead>
                 <tr>
-                  <td colSpan="2" className="empty-message">
-                    저장된 영수증이 없습니다.
-                  </td>
+                  <th>잔소리</th>
+                  <th>제안한 가격 (만원)</th>
                 </tr>
-              ) : (
-                naggingList.map((nagging, index) => (
-                  <tr key={index}>
-                    <td>{nagging.nagging}</td>
-                    <td>{nagging.price}만원</td>
+              </thead>
+              <tbody>
+                {naggingList.length === 0 ? (
+                  <tr>
+                    <td colSpan="2" className="empty-message">
+                      저장된 영수증이 없습니다.
+                    </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-          <div className="receipt-summary">
-            <div className="summary-item total">
-              <span>Total</span>
-              <span>
-                {naggingList.reduce(
-                  (sum, f) => sum + (parseInt(f.price) || 0),
-                  0
-                )}{" "}
-                만원
-              </span>
+                ) : (
+                  naggingList.map((nagging, index) => (
+                    <tr key={index}>
+                      <td>{nagging.nagging}</td>
+                      <td>{nagging.price}만원</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+            <div className="receipt-summary">
+              <div className="summary-item total">
+                <span>Total</span>
+                <span>
+                  {naggingList.reduce(
+                    (sum, f) => sum + (parseInt(f.price) || 0),
+                    0
+                  )}{" "}
+                  만원
+                </span>
+              </div>
             </div>
           </div>
         </section>
