@@ -314,3 +314,7 @@
   margin-top: 2rem;
   color: #dd2626;
 }
+
+.reset-section {
+  display: flex;
+}

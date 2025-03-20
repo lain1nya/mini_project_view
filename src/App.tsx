@@ -25,8 +25,10 @@ const App = () => {
   const [dislikeAmount, setDislikeAmount] = useState<number | null>(null);
   const [dislikeReason, setDislikeReason] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const [naggingList, setNaggingList] = useState<NaggingItem[]>([]);
+  const [DoneList, setDoneList] = useState<NaggingItem[]>([]);
 
   useEffect(() => {
     const storedNagging = JSON.parse(
@@ -35,7 +37,7 @@ const App = () => {
     setNaggingList(storedNagging);
   }, []);
 
-  useEffect(() => {}, [naggingList]);
+  useEffect(() => {}, [naggingList, DoneList]);
 
   const handleNaggingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNaggingInput(e.target.value);
@@ -161,6 +163,48 @@ const App = () => {
     setDislikeReason(e.target.value);
   };
 
+  const handleMakeReceipt = async () => {
+    setIsDone(true);
+    if (naggingList.length === 0) {
+      alert("저장된 영수증이 없습니다.");
+      return;
+    }
+    try {
+      const response = await fetch("http://localhost:8000/make_receipt/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nagging_list: naggingList }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`서버 오류: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Receipt Response", data);
+
+      // 서버에서 받은 데이터로 UI 업데이트 가능
+      alert(
+        `영수증이 성공적으로 생성되었습니다.\n총 가격: ${data.total_price}만원`
+      );
+
+      // 필요하면 naggingList 초기화 가능
+      setNaggingList([]);
+      setDoneList(data.receipt.nagging_list);
+      sessionStorage.removeItem("naggingList");
+    } catch (error) {
+      console.error("Error making receipt: ", error);
+      alert("영수증 생성에 실패했습니다.");
+    }
+  };
+
+  const handleReset = () => {
+    setIsDone(false);
+    setDoneList([]);
+  };
+
   return (
     <div className="app">
       <h1>명절 잔소리 영수증</h1>
@@ -259,7 +303,12 @@ const App = () => {
         </section>
         {/* 영수증 리스트 출력 */}
         <section className="view-section">
-          <h2>Invoice</h2>
+          <div className="reset-section">
+            <h2>잔소리 리스트</h2>
+            <button onClick={isDone ? handleReset : handleMakeReceipt}>
+              {isDone ? "초기화" : "영수증 생성"}
+            </button>
+          </div>
           <div className="receipt-section">
             <table className="receipt-table">
               <thead>
@@ -268,33 +317,62 @@ const App = () => {
                   <th>제안한 가격 (만원)</th>
                 </tr>
               </thead>
-              <tbody>
-                {naggingList.length === 0 ? (
-                  <tr>
-                    <td colSpan="2" className="empty-message">
-                      저장된 영수증이 없습니다.
-                    </td>
-                  </tr>
-                ) : (
-                  naggingList.map((nagging, index) => (
-                    <tr key={index}>
-                      <td>{nagging.nagging}</td>
-                      <td>{nagging.price}만원</td>
+              {isDone ? (
+                <tbody>
+                  {DoneList.length === 0 ? (
+                    <tr>
+                      <td colSpan={2} className="empty-message">
+                        저장된 영수증이 없습니다.
+                      </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
+                  ) : (
+                    DoneList.map((nagging, index) => (
+                      <tr key={`naggingindex ${index}`}>
+                        <td>{nagging.nagging}</td>
+                        <td>{nagging.price}만원</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              ) : (
+                <tbody>
+                  {naggingList.length === 0 ? (
+                    <tr>
+                      <td colSpan={2} className="empty-message">
+                        저장된 영수증이 없습니다.
+                      </td>
+                    </tr>
+                  ) : (
+                    naggingList.map((nagging, index) => (
+                      <tr key={index}>
+                        <td>{nagging.nagging}</td>
+                        <td>{nagging.price}만원</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              )}
             </table>
             <div className="receipt-summary">
               <div className="summary-item total">
                 <span>Total</span>
-                <span>
-                  {naggingList.reduce(
-                    (sum, f) => sum + (parseInt(f.price) || 0),
-                    0
-                  )}{" "}
-                  만원
-                </span>
+                {isDone ? (
+                  <span>
+                    {DoneList.reduce(
+                      (sum, f) => sum + (parseInt(f.price) || 0),
+                      0
+                    )}{" "}
+                    만원
+                  </span>
+                ) : (
+                  <span>
+                    {naggingList.reduce(
+                      (sum, f) => sum + (parseInt(f.price) || 0),
+                      0
+                    )}{" "}
+                    만원
+                  </span>
+                )}
               </div>
             </div>
           </div>
