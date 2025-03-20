@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import './App.css';
 
 interface ReceiptItem {
   nagging: string;
@@ -17,13 +17,13 @@ interface NaggingItem {
 }
 
 const App = () => {
-  const [naggingInput, setNaggingInput] = useState("");
+  const [naggingInput, setNaggingInput] = useState('');
   const [isShow, setIsShow] = useState(false);
   const [receipt, setReceipt] = useState<ReceiptItem>();
   const [receiptList, setReceiptList] = useState<ReceiptItem[]>([]);
   const [isDisliked, setIsDisliked] = useState(false);
   const [dislikeAmount, setDislikeAmount] = useState<number | null>(null);
-  const [dislikeReason, setDislikeReason] = useState("");
+  const [dislikeReason, setDislikeReason] = useState('');
   const [loading, setLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
@@ -31,9 +31,7 @@ const App = () => {
   const [DoneList, setDoneList] = useState<NaggingItem[]>([]);
 
   useEffect(() => {
-    const storedNagging = JSON.parse(
-      sessionStorage.getItem("naggingList") || "[]"
-    );
+    const storedNagging = JSON.parse(sessionStorage.getItem('naggingList') || '[]');
     setNaggingList(storedNagging);
   }, []);
 
@@ -45,16 +43,16 @@ const App = () => {
 
   const handleSubmitNagging = async () => {
     if (!naggingInput) {
-      alert("잔소리를 입력해주세요");
+      alert('잔소리를 입력해주세요');
       return;
     }
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/get_price/", {
-        method: "POST",
+      const response = await fetch('http://localhost:8000/get_price/', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ remark: naggingInput }),
       });
@@ -74,22 +72,20 @@ const App = () => {
       setReceiptList([...receiptList, newReceipt]);
       setIsShow(true);
 
-      const existingNagging = JSON.parse(
-        sessionStorage.getItem("naggingList") || "[]"
-      );
+      const existingNagging = JSON.parse(sessionStorage.getItem('naggingList') || '[]');
 
       const updateNagging = [...existingNagging, newReceipt];
-      sessionStorage.setItem("naggingList", JSON.stringify(updateNagging));
+      sessionStorage.setItem('naggingList', JSON.stringify(updateNagging));
       setNaggingList(updateNagging);
     } catch (error) {
-      console.error("Error fetching price: ", error);
+      console.error('Error fetching price: ', error);
     }
 
     setLoading(false);
-    setNaggingInput("");
+    setNaggingInput('');
     setIsDisliked(false);
     setDislikeAmount(null);
-    setDislikeReason("");
+    setDislikeReason('');
   };
 
   // 가격 좋아요 싫어요 버튼
@@ -101,10 +97,10 @@ const App = () => {
       setIsDisliked(true);
     }
     try {
-      const response = await fetch("http://localhost:8000/feedback/", {
-        method: "POST",
+      const response = await fetch('http://localhost:8000/feedback/', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           remark: receipt.nagging,
@@ -114,24 +110,24 @@ const App = () => {
       });
 
       const data = await response.json();
-      console.log("Response", data);
-      alert("성공적으로 제출되었습니다.");
+      console.log('Response', data);
+      alert('성공적으로 제출되었습니다.');
     } catch (error) {
-      console.error("Error submitting feedback: ", error);
-      alert("피드백 제출이 실패했습니다.");
+      console.error('Error submitting feedback: ', error);
+      alert('피드백 제출이 실패했습니다.');
     }
   };
 
   const handleSubmitFeedback = async () => {
     if (!receipt || !dislikeAmount) {
-      alert("가격을 입력해주세요.");
+      alert('가격을 입력해주세요.');
       return;
     }
     try {
-      const response = await fetch("http://localhost:8000/suggest-price/", {
-        method: "POST",
+      const response = await fetch('http://localhost:8000/suggest-price/', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           remark: receipt.nagging,
@@ -141,39 +137,33 @@ const App = () => {
       });
       const data = await response.json();
       setIsShow(false);
-      console.log("Feedback Response", data);
-      alert("성공적으로 제출되었습니다.");
+      console.log('Feedback Response', data);
+      alert('성공적으로 제출되었습니다.');
     } catch (error) {
-      alert("피드백 제출이 실패했습니다.");
-      console.error("Error submitting feedback: ", error);
+      alert('피드백 제출이 실패했습니다.');
+      console.error('Error submitting feedback: ', error);
     }
   };
 
-  const handleDislikeAmountChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleDislikeAmountChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setDislikeAmount(Number(e.target.value));
   };
 
-  const handleDislikeReasonChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleDislikeReasonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDislikeReason(e.target.value);
   };
 
   const handleMakeReceipt = async () => {
     setIsDone(true);
     if (naggingList.length === 0) {
-      alert("저장된 영수증이 없습니다.");
+      alert('저장된 영수증이 없습니다.');
       return;
     }
     try {
-      const response = await fetch("http://localhost:8000/make_receipt/", {
-        method: "POST",
+      const response = await fetch('http://localhost:8000/make_receipt/', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ nagging_list: naggingList }),
       });
@@ -183,20 +173,18 @@ const App = () => {
       }
 
       const data = await response.json();
-      console.log("Receipt Response", data);
+      console.log('Receipt Response', data);
 
       // 서버에서 받은 데이터로 UI 업데이트 가능
-      alert(
-        `영수증이 성공적으로 생성되었습니다.\n총 가격: ${data.total_price}만원`
-      );
+      alert(`영수증이 성공적으로 생성되었습니다.\n총 가격: ${data.total_price}만원`);
 
       // 필요하면 naggingList 초기화 가능
       setNaggingList([]);
       setDoneList(data.receipt.nagging_list);
-      sessionStorage.removeItem("naggingList");
+      sessionStorage.removeItem('naggingList');
     } catch (error) {
-      console.error("Error making receipt: ", error);
-      alert("영수증 생성에 실패했습니다.");
+      console.error('Error making receipt: ', error);
+      alert('영수증 생성에 실패했습니다.');
     }
   };
 
@@ -221,13 +209,11 @@ const App = () => {
             placeholder="잔소리를 입력해주세요"
           />
           <button onClick={handleSubmitNagging} disabled={loading}>
-            {loading ? "⏳ 가격 계산 중..." : "💰 가격 측정하기"}
+            {loading ? '⏳ 가격 계산 중...' : '💰 가격 측정하기'}
           </button>
           {/* Like & Dislike Section */}
           {isShow && receipt && (
-            <div className="analysis-done">
-              분석이 완료되었습니다. 해당 가격이 어떤지 알려주세요.
-            </div>
+            <div className="analysis-done">분석이 완료되었습니다. 해당 가격이 어떤지 알려주세요.</div>
           )}
           {isShow && receipt && (
             <section className="receipt">
@@ -247,12 +233,8 @@ const App = () => {
               </div>
               <div>💭 이 가격에 대해 어떻게 생각하시나요?</div>
               <div className="receipt-button">
-                <button onClick={() => handleLikeDislike(true)}>
-                  👍 좋아요
-                </button>
-                <button onClick={() => handleLikeDislike(false)}>
-                  👎 나빠요
-                </button>
+                <button onClick={() => handleLikeDislike(true)}>👍 좋아요</button>
+                <button onClick={() => handleLikeDislike(false)}>👎 나빠요</button>
               </div>
               {isDisliked && (
                 <div className="memo-container">
@@ -262,25 +244,18 @@ const App = () => {
                   </div>
                   <div className="memo-content">
                     <div className="memo-question">
-                      💭 그럼 얼마가 적당하다고 생각하시나요? 이유도 함께
-                      설명해주세요.
+                      💭 그럼 얼마가 적당하다고 생각하시나요? 이유도 함께 설명해주세요.
                     </div>
                     <div className="memo-input-group">
-                      <select
-                        className="memo-select"
-                        onChange={handleDislikeAmountChange}
-                        value={dislikeAmount ?? ""}
-                      >
+                      <select className="memo-select" onChange={handleDislikeAmountChange} value={dislikeAmount ?? ''}>
                         <option value="" disabled>
                           금액 선택 (만원)
                         </option>
-                        {Array.from({ length: 15 }, (_, i) => i + 1).map(
-                          (num) => (
-                            <option key={num} value={num}>
-                              {num} 만원
-                            </option>
-                          )
-                        )}
+                        {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
+                          <option key={num} value={num}>
+                            {num} 만원
+                          </option>
+                        ))}
                       </select>
                       <input
                         className="memo-text-input"
@@ -291,9 +266,7 @@ const App = () => {
                       />
                     </div>
                     <div className="memo-submit">
-                      <button onClick={handleSubmitFeedback}>
-                        💡 의견 제출하기
-                      </button>
+                      <button onClick={handleSubmitFeedback}>💡 의견 제출하기</button>
                     </div>
                   </div>
                 </div>
@@ -305,8 +278,8 @@ const App = () => {
         <section className="view-section">
           <div className="reset-section">
             <h2>잔소리 리스트</h2>
-            <button onClick={isDone ? handleReset : handleMakeReceipt}>
-              {isDone ? "초기화" : "영수증 생성"}
+            <button className="make-button" onClick={isDone ? handleReset : handleMakeReceipt}>
+              {isDone ? '🔙  초기화' : '🔖 영수증 생성'}
             </button>
           </div>
           <div className="receipt-section">
@@ -357,21 +330,9 @@ const App = () => {
               <div className="summary-item total">
                 <span>Total</span>
                 {isDone ? (
-                  <span>
-                    {DoneList.reduce(
-                      (sum, f) => sum + (parseInt(f.price) || 0),
-                      0
-                    )}{" "}
-                    만원
-                  </span>
+                  <span>{DoneList.reduce((sum, f) => sum + (parseInt(f.price) || 0), 0)} 만원</span>
                 ) : (
-                  <span>
-                    {naggingList.reduce(
-                      (sum, f) => sum + (parseInt(f.price) || 0),
-                      0
-                    )}{" "}
-                    만원
-                  </span>
+                  <span>{naggingList.reduce((sum, f) => sum + (parseInt(f.price) || 0), 0)} 만원</span>
                 )}
               </div>
             </div>

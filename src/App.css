@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;500;700&display=swap');
 
 .app {
-  font-family: "Pretendard", sans-serif;
+  font-family: 'Pretendard', sans-serif;
   display: flex;
   flex-direction: column;
   margin: 0 5vw;
@@ -41,7 +41,8 @@
   border-radius: 5px;
 }
 
-.input-section button {
+.input-section button,
+.make-button {
   padding: 0.5rem 1rem;
   border: 1px solid #d2d2d2;
   border-radius: 5px;
@@ -185,7 +186,7 @@
 
 /* 메모지에 테이프 효과 추가 (선택사항) */
 .memo-container::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -10px;
   left: 50%;
@@ -299,10 +300,6 @@
   padding: 2vw 5vw;
 }
 
-.view-section h2 {
-  margin-bottom: 2rem;
-}
-
 .receipt-section {
   display: flex;
   flex-direction: column;
@@ -317,4 +314,10 @@
 
 .reset-section {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.make-button {
+  height: fit-content;
 }
